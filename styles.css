@@ -65,3 +65,11 @@ button:hover {
         margin-right: 0;
     }
 }
+
+#chat-history p:nth-child(odd) {
+    color: blue;
+}
+
+#chat-history p:nth-child(even) {
+    color: green;
+}

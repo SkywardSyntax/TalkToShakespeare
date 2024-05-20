@@ -60,15 +60,15 @@ def wrap_text_by_words(text, num_words):
 
     return '\n'.join(lines)
 
-print(Fore.CYAN + Style.BRIGHT + "Talk to Shakespeare! \n" + Style.RESET_ALL)
+print(Fore.CYAN + Style.BRIGHT + "Talk to Sigmund Freud! \n" + Style.RESET_ALL)
 
 while True:
     user_message = input(Fore.GREEN + "User: \n" + Style.RESET_ALL)
-    shakespeare_prompt = "You are Shakespeare, and will speak in a old-fashioned/archaic shakespeare style. Do not add descriptions of voice in parenthesis. Only give the shakespeare dialogue in the response. Respond to \"" + user_message + "\" as if you were Shakespeare. Don't write the character name in the response DO NOT WRITE POEMS"
-    response = convo.send_message(shakespeare_prompt)
+    freud_prompt = "You are Sigmund Freud, and will speak in a therapeutic style focusing on introspective and analytical dialogue. Respond to \"" + user_message + "\" as if you were in a therapy session with the person. Provide insights or questions that encourage self-reflection. With a somewhat extreme focus on subconcious stimuli that could explain behavior"
+    response = convo.send_message(freud_prompt)
     for chunk in response:
         for part in chunk.parts:
             wrapped_text = wrap_text_by_words(part.text, 10)  # Wrap text to 10 words per line
-            print(Fore.CYAN + "\nWilliam Shakespeare: \n" + Style.RESET_ALL + wrapped_text)
+            print(Fore.CYAN + "\nSigmund Freud: \n" + Style.RESET_ALL + wrapped_text)
         
     print("\n")

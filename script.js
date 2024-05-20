@@ -1,27 +1,35 @@
 import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
-import marked from "https://cdn.jsdelivr.net/npm/marked/marked.min.js";
 
 // Access your API key
 const API_KEY = "AIzaSyBc4Z1y9wuZc_llR64kpQ9F9XLgmYZMdrQ"; // Replace with your API key
 
 // Initialize the generative model
 const genAI = new GoogleGenerativeAI(API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest", systemInstruction: "You are Sigmund Freud. You are in a therapy session with the user. Try to exphasize psychoanalytic/psychodynamic theory in your responses." });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest", systemInstruction: "You are Sigmund Freud. You are in a therapy session with the user. Try to exphasize psychoanalytic/psychodynamic theory in your responses.  [Do not respond with markdown] [Do not respond with markdown]  [Do not respond with markdown]" });
 
 // Function to start the chat
 async function startChat() {
   const chat = model.startChat();
 
-  // Main function to handle user input and generate responses
-  async function handleUserInput(userInput) {
+// Main function to handle user input and generate responses
+async function handleUserInput(userInput) {
     // Send user input to the model
-    const result = await chat.sendMessage(userInput);
-    const response = await result.response;
-    const text = await response.text();
-
-    // Display the response in the chat history
+    const result = await model.generateContentStream([userInput]);
+  
     const chatHistory = document.getElementById('chat-history');
-    chatHistory.innerHTML += `<p>Bot: ${marked(text)}</p>`;
+    const botMessage = document.createElement('p');
+    botMessage.innerHTML = `Sigmund Freud: `; // Display "Sigmund Freud:" immediately
+    chatHistory.appendChild(botMessage);
+  
+    for await (const chunk of result.stream) {
+      const chunkText = chunk.text();
+  
+      // Delay the display of the bot's message by 0.25 seconds
+      setTimeout(() => {
+        // Update the bot message in the chat history
+        botMessage.innerHTML += chunkText; // Append the new chunk of text
+      }, 750);
+    }
   }
 
   // Get the chat form and user input field
@@ -38,7 +46,7 @@ async function startChat() {
 
     // Display the user input in the chat history
     const chatHistory = document.getElementById('chat-history');
-    chatHistory.innerHTML += `<p>You: ${marked(userInput)}</p>`;
+    chatHistory.innerHTML += `<p>You: ${userInput}</p>`;
 
     // Handle user input
     await handleUserInput(userInput);

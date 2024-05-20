@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+import marked from "https://cdn.jsdelivr.net/npm/marked/marked.min.js";
 
 // Access your API key
 const API_KEY = "AIzaSyBc4Z1y9wuZc_llR64kpQ9F9XLgmYZMdrQ"; // Replace with your API key
@@ -16,11 +17,11 @@ async function startChat() {
     // Send user input to the model
     const result = await chat.sendMessage(userInput);
     const response = await result.response;
-    const text = response.text();
+    const text = await response.text();
 
     // Display the response in the chat history
     const chatHistory = document.getElementById('chat-history');
-    chatHistory.innerHTML += `<p>Bot: ${text}</p>`;
+    chatHistory.innerHTML += `<p>Bot: ${marked(text)}</p>`;
   }
 
   // Get the chat form and user input field
@@ -37,7 +38,7 @@ async function startChat() {
 
     // Display the user input in the chat history
     const chatHistory = document.getElementById('chat-history');
-    chatHistory.innerHTML += `<p>You: ${userInput}</p>`;
+    chatHistory.innerHTML += `<p>You: ${marked(userInput)}</p>`;
 
     // Handle user input
     await handleUserInput(userInput);

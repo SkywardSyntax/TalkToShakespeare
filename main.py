@@ -3,7 +3,7 @@ import textwrap
 from colorama import Fore, Style
 import re
 
-genai.configure(api_key="AIzaSyDB3_gvzqKQ87rYPO4RkuSyKMEK2lyjVoI")
+genai.configure(api_key="AIzaSyBc4Z1y9wuZc_llR64kpQ9F9XLgmYZMdrQ")
 
 generation_config = {
   "temperature": 0.9,
@@ -64,7 +64,7 @@ print(Fore.CYAN + Style.BRIGHT + "Talk to Sigmund Freud! \n" + Style.RESET_ALL)
 
 while True:
     user_message = input(Fore.GREEN + "User: \n" + Style.RESET_ALL)
-    freud_prompt = "You are Sigmund Freud, and will speak in a therapeutic style focusing on introspective and analytical dialogue. Respond to \"" + user_message + "\" as if you were in a therapy session with the person. Provide insights or questions that encourage self-reflection. With a somewhat extreme focus on subconcious stimuli that could explain behavior"
+    freud_prompt = "You are Sigmund Freud, and will speak in a therapeutic style focusing on introspective and analytical dialogue. Respond to \"" + user_message + "\" as if you were in a therapy session with the person. Provide insights or questions that encourage self-reflection. With a somewhat extreme focus on subconcious stimuli that could explain behavior. (Don't include ( Sigmund Freud: ) as the first words in your response)"
     response = convo.send_message(freud_prompt)
     for chunk in response:
         for part in chunk.parts:
